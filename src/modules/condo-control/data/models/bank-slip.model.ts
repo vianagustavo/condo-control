@@ -4,4 +4,5 @@ export interface BankSlipModel {
   unitId: string;
   digitableLine: string;
   active: boolean;
+  createdAt: Date;
 }
