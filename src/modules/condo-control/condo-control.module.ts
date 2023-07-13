@@ -1,8 +1,16 @@
 import { Module } from '@nestjs/common';
-import { BANK_SLIPS_REPOSITORY, UNITS_REPOSITORY } from './constants';
-import { PrismaUnitsRepository } from './infra';
+
 import { PrismaService } from 'src/common';
+
+import {
+  BANK_SLIPS_REPOSITORY,
+  CREATE_BANK_SLIP,
+  UNITS_REPOSITORY,
+} from './constants';
+import { CreateBankSlipService } from './data';
+import { PrismaUnitsRepository } from './infra';
 import { PrismaBankSlipsRepository } from './infra/repositories/bank-slips.repository';
+import { BankSlipsController } from './presentation';
 
 @Module({
   imports: [],
@@ -16,7 +24,11 @@ import { PrismaBankSlipsRepository } from './infra/repositories/bank-slips.repos
       provide: UNITS_REPOSITORY,
       useClass: PrismaUnitsRepository,
     },
+    {
+      provide: CREATE_BANK_SLIP,
+      useClass: CreateBankSlipService,
+    },
   ],
-  controllers: [],
+  controllers: [BankSlipsController],
 })
 export class CondoControlModule {}

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { CondoControlModule } from './modules';
+
 import { PrismaService } from './common';
+import { CondoControlModule } from './modules';
 
 @Module({
   imports: [CondoControlModule],

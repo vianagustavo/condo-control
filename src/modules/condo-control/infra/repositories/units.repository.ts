@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { UnitsRepository } from '../../data/repositories';
-import { UnitModel } from '../../data';
+
 import { PrismaService } from 'src/common/infra';
+
+import { UnitModel, UnitsRepository } from '../../data';
 
 @Injectable()
 export class PrismaUnitsRepository implements UnitsRepository {

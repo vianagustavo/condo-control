@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { UnitsRepository } from '../../data/repositories';
-import { BankSlipModel, CreateBankSlipInput } from '../../data';
+
 import { PrismaService } from 'src/common/infra';
-import { BankSlipsRepository } from '../../data/repositories/bank-slips.repository';
+
 import { UNITS_REPOSITORY } from '../../constants';
+import { BankSlipModel, CreateBankSlipInput } from '../../data';
+import { BankSlipsRepository, UnitsRepository } from '../../data/repositories';
 
 @Injectable()
 export class PrismaBankSlipsRepository implements BankSlipsRepository {

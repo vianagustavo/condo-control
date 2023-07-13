@@ -1,5 +1,5 @@
-import { BankSlipModel, CreateBankSlipInput } from '../../data';
+import { BankSlipModel } from '../../data';
 
 export interface CreateBankSlip {
-  execute(input: CreateBankSlipInput): Promise<BankSlipModel>;
+  execute(csvFile: Express.Multer.File): Promise<void>;
 }
