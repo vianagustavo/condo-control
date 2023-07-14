@@ -5,12 +5,16 @@ import { PrismaService } from 'src/common';
 import {
   BANK_SLIPS_REPOSITORY,
   CREATE_BANK_SLIP,
+  CREATE_BANK_SLIP_PDF_FILES,
   UNITS_REPOSITORY,
 } from './constants';
-import { CreateBankSlipService } from './data';
+import { CreateBankSlipsPdfFilesService, CreateBankSlipsService } from './data';
 import { PrismaUnitsRepository } from './infra';
 import { PrismaBankSlipsRepository } from './infra/repositories/bank-slips.repository';
-import { BankSlipsController } from './presentation';
+import {
+  BankSlipsController,
+  CreateBankSlipsPdfFilesController,
+} from './presentation';
 
 @Module({
   imports: [],
@@ -21,14 +25,18 @@ import { BankSlipsController } from './presentation';
       useClass: PrismaBankSlipsRepository,
     },
     {
+      provide: CREATE_BANK_SLIP,
+      useClass: CreateBankSlipsService,
+    },
+    {
+      provide: CREATE_BANK_SLIP_PDF_FILES,
+      useClass: CreateBankSlipsPdfFilesService,
+    },
+    {
       provide: UNITS_REPOSITORY,
       useClass: PrismaUnitsRepository,
     },
-    {
-      provide: CREATE_BANK_SLIP,
-      useClass: CreateBankSlipService,
-    },
   ],
-  controllers: [BankSlipsController],
+  controllers: [BankSlipsController, CreateBankSlipsPdfFilesController],
 })
 export class CondoControlModule {}

@@ -9,20 +9,20 @@ datasource db {
 }
 
 model Units {
-  id            String    @id @default(uuid()) @db.Uuid
-  name          String    @db.VarChar(100)
+  id            Int         @id @default(autoincrement())
+  name          String      @db.VarChar(100)
   active        Boolean
   bankSlips     BankSlips[]
-  created_at    DateTime  @default(now())
+  created_at    DateTime    @default(now())
 
   @@map("lotes") 
 }
 
 model BankSlips {
-  id              String    @id @default(uuid()) @db.Uuid
-  drawee_name     String    @db.VarChar(255)
+  id              Int       @id @default(autoincrement())
+  drawee_name     String    @db.VarChar(255)  
   unit            Units     @relation(fields: [unit_id], references: [id])
-  unit_id         String    @db.Uuid
+  unit_id         Int    
   value           Decimal
   digitable_line  String    @db.VarChar(255)
   active          Boolean

@@ -8,13 +8,15 @@ import { UnitModel, UnitsRepository } from '../../data';
 export class PrismaUnitsRepository implements UnitsRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  public async getUnitByName(unitName: string): Promise<UnitModel> {
-    const unit = await this.prismaService.units.findFirst({
+  public async getUnitsByNames(unitNames: string[]): Promise<UnitModel[]> {
+    const units = await this.prismaService.units.findMany({
       where: {
-        name: unitName,
+        name: {
+          in: unitNames,
+        },
       },
     });
 
-    return unit;
+    return units;
   }
 }

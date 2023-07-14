@@ -8,7 +8,7 @@ import { BankSlipModel } from '../../data';
 export class BankSlipDto implements BankSlipModel {
   @Expose()
   @ApiProperty()
-  id: string;
+  id: number;
 
   @Expose()
   @ApiProperty()
@@ -16,7 +16,7 @@ export class BankSlipDto implements BankSlipModel {
 
   @Expose()
   @ApiProperty()
-  unitId: string;
+  unitId: number;
 
   @Expose()
   @ApiProperty()

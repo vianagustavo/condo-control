@@ -22,10 +22,12 @@
     "@nestjs/platform-express": "^10.0.5",
     "@nestjs/swagger": "^7.1.1",
     "@prisma/client": "^4.14.1",
+    "@types/pdfjs-dist": "^2.10.378",
     "class-transformer": "^0.5.1",
     "csv-parser": "^3.0.0",
     "fs": "^0.0.1-security",
     "multer": "^1.4.5-lts.1",
+    "pdf.js-extract": "^0.2.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "stream": "^0.0.2"

@@ -1,37 +1,50 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { PrismaService } from 'src/common/infra';
 
-import { UNITS_REPOSITORY } from '../../constants';
-import { BankSlipModel, CreateBankSlipInput } from '../../data';
-import { BankSlipsRepository, UnitsRepository } from '../../data/repositories';
+import { BankSlipModel, CreateBankSlipInput, UnitModel } from '../../data';
+import { BankSlipsRepository } from '../../data/repositories';
 
 @Injectable()
 export class PrismaBankSlipsRepository implements BankSlipsRepository {
-  constructor(
-    private readonly prismaService: PrismaService,
-    @Inject(UNITS_REPOSITORY)
-    private readonly unitsRepository: UnitsRepository,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
-  public async create(
-    createBankSlipInput: CreateBankSlipInput,
-  ): Promise<BankSlipModel> {
-    const unit = await this.unitsRepository.getUnitByName(
-      createBankSlipInput.name,
-    );
+  public async createMany(
+    createBankSlipInputs: CreateBankSlipInput[],
+    units: UnitModel[],
+  ): Promise<number> {
+    const bankSlipsToCreate = createBankSlipInputs.map((input) => {
+      const inputUnit = units.find((unit) => {
+        return unit.name === input.unitName;
+      });
 
-    const bankSlip = await this.prismaService.bankSlips.create({
-      data: {
-        drawee_name: createBankSlipInput.name,
-        digitable_line: createBankSlipInput.digitableLine,
-        value: createBankSlipInput.value,
-        unit_id: unit.id,
+      return {
+        drawee_name: input.name,
+        digitable_line: input.digitableLine,
+        value: input.value,
+        unit_id: inputUnit.id,
         active: true,
+      };
+    });
+
+    const bankSlips = await this.prismaService.bankSlips.createMany({
+      data: bankSlipsToCreate,
+    });
+
+    return bankSlips.count;
+  }
+
+  public async getLatestBankSlipByName(name: string): Promise<BankSlipModel> {
+    const bankSlip = await this.prismaService.bankSlips.findFirst({
+      where: {
+        drawee_name: name,
+      },
+      orderBy: {
+        id: 'desc',
       },
     });
 
-    const parsedBankSlip: BankSlipModel = {
+    const parsedBankSlips: BankSlipModel = {
       id: bankSlip.id,
       draweeName: bankSlip.drawee_name,
       digitableLine: bankSlip.digitable_line,
@@ -40,6 +53,6 @@ export class PrismaBankSlipsRepository implements BankSlipsRepository {
       createdAt: bankSlip.created_at,
     };
 
-    return parsedBankSlip;
+    return parsedBankSlips;
   }
 }

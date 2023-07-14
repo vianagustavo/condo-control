@@ -1,7 +1,7 @@
 export interface BankSlipModel {
-  id: string;
+  id: number;
   draweeName: string;
-  unitId: string;
+  unitId: number;
   digitableLine: string;
   active: boolean;
   createdAt: Date;

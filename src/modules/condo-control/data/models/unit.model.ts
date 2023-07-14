@@ -1,5 +1,5 @@
 export interface UnitModel {
-  id: string;
+  id: number;
   name: string;
   active: boolean;
 }
